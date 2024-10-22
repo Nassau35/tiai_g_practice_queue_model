@@ -1,0 +1,98 @@
+--////////////////////////Creation of the queues to native BQ tables  //////////////////////////////////
+--CREATE OR REPLACE TABLE FOR SHOPPING QUEUE
+CREATE OR REPLACE TABLE `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_shopping_queue_BQ_Table` AS
+  SELECT * FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_shopping_queue`;
+
+--CREATE OR REPLACE TABLE FOR TEXT ADS QUEUE
+CREATE OR REPLACE TABLE `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_text_ads_queue_BQ_table` AS
+  SELECT * FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_text_ads_queue`;
+
+--CREATE OR REPLACE TABLE FOR EM QUEUE
+CREATE OR REPLACE TABLE `ti-lbai-sandbox.tiai_g_ads_practice_queue.em_phrasematch_queue_BQ_table` AS
+SELECT 
+ emqueue.Correlative
+,emqueue.date
+,emqueue.TimeStamp_updated
+,emqueue.User_upload_querys
+,emqueue.Source
+,emqueue.identifier
+,emqueue.Guideline_Official
+,emqueue.Guideline_PDF
+,emqueue.Client
+,emqueue.Project
+,emqueue.Unique_ID
+,emqueue.is_this_query_active_
+,emqueue.is_this_query_for_productivity_
+,emqueue.is_this_query_for_performance_
+,emqueue.Reserved_4
+,emqueue.Reserved_6
+,emqueue.query
+,emqueue.eta_headline
+,emqueue.eta_description
+,emqueue.landing_page
+,emqueue.eta_visurl
+,emqueue.Keyword
+,emqueue.SERP_LINK_QUERY
+,emqueue.SERP_LINK_KEYWORD
+,emqueue.Reserved_8
+,emqueue.Reserved_9
+,emqueue.Reserved_10
+,emqueue.Reserved_11
+,emqueue.Reserved_12
+,emqueue.Date_GD___Last_Update
+,emqueue.Updated_by___SER_1
+,emqueue.Updated_by___SER_2
+,emqueue.Updated_by___SER_3
+,CAST(emqueue.GD___SER AS STRING) AS GD___SER
+,emqueue.Certainty___SER
+,emqueue.Reserved_13
+,emqueue.Reserved_14
+,emqueue.Reserved_15
+,emqueue.Reserved_16
+,emqueue.Reserved_17
+,emqueue.Tags
+,emqueue.RCA_Last_Update
+,emqueue.Updated_by
+,emqueue.Agree_with_SER
+,emqueue.RCA__Level1
+,emqueue.RCA_Level2
+,emqueue.Comments 
+FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.em_phrasematch_queue` AS emqueue;
+
+--////////////////////////Merge of the queues to native BQ tables  //////////////////////////////////
+
+CREATE OR REPLACE TABLE `ti-lbai-sandbox.tiai_g_ads_practice_queue.merge_queues_BQ_Table` AS
+-- queue's queires
+WITH t AS (
+  SELECT * 
+  FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_text_ads_queue_BQ_table` AS text 
+  UNION ALL
+  SELECT * 
+  FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_shopping_queue_BQ_Table` AS shopi 
+  UNION ALL
+  SELECT * 
+  FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.em_phrasematch_queue_BQ_table` AS em 
+
+)
+
+Select 
+*
+,SPLIT(PROJECT, "_")[SAFE_OFFSET(0)] AS queue
+, case 
+  WHEN SPLIT(PROJECT, "_")[SAFE_OFFSET(0)] = 'Shopping' 
+  THEN 
+  CONCAT("https://docs.google.com/forms/d/e/1FAIpQLSc4gpSLJxpzsUF-4RY23ZWYo6Rv-erTzUw_dGcajukZvhyV1w/viewform?usp=pp_url&entry.1951728911=",Correlative,"&entry.1803115113=",query,"&entry.1223584751=",landing_page,"&entry.610540840=",eta_description,"&entry.1064983307=",SERP_LINK_QUERY,"&entry.148996284=No")
+
+  WHEN SPLIT(PROJECT, "_")[SAFE_OFFSET(0)] = 'TextAds'
+  THEN 
+  CONCAT("https://docs.google.com/forms/d/e/1FAIpQLSeN2fnwfHH_mliIMBzM1b9O9kJ-CBHuadS9WgPFy8AHg0C3Hw/viewform?usp=pp_url&entry.344381546=",Correlative,"&entry.1996338374=",query,"&entry.1234575194=",eta_description,"&entry.510766093=",landing_page,"&entry.1670727497=",SERP_LINK_QUERY,"&entry.634857431=No")
+
+  WHEN SPLIT(PROJECT, "_")[SAFE_OFFSET(0)] = 'PhraseMatch' 
+  THEN
+  CONCAT("https://docs.google.com/forms/d/e/1FAIpQLSeGYX9gCDDFQTtSdGv5klpss7r0vANqkVJSX2CxvYW6wQbZZg/viewform?usp=pp_url&entry.1545469019=",Correlative,"&entry.454929187=",query,"&entry.23528908=",SERP_LINK_QUERY,"&entry.722839288=",Keyword,"&entry.142044115=",SERP_LINK_KEYWORD,"&entry.1872624179=No")
+
+   END AS url_form
+
+from t
+ORDER BY Project, Correlative ASC;
+
