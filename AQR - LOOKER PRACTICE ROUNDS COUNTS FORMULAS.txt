@@ -1,0 +1,159 @@
+========================================    LOOKER GOOD COUNTS
+
+TP_good:
+COUNT(CASE WHEN Rating = "Good" AND GD = "Good" THEN 1 END)
+
+FP_good:
+COUNT(CASE WHEN Rating = "Good" AND GD = "Poor" THEN 1 END)
+ +COUNT(CASE WHEN Rating = "Good" AND GD = "Egregious" THEN 1 END)
+ +COUNT(CASE WHEN Rating = "Good" AND GD = "Okay" THEN 1 END)
+
+FN_good:
+COUNT(CASE WHEN Rating = "Poor" AND GD = "Good" THEN 1 END) 
+            +COUNT(CASE WHEN Rating = "Egregious" AND GD = "Good" THEN 1 END)
+            +COUNT(CASE WHEN Rating = "Okay" AND GD = "Good" THEN 1 END)
+
+TN_good:
+COUNT(CASE WHEN Rating = "Poor" AND GD = "Poor" THEN 1 END) 
+            +COUNT(CASE WHEN Rating = "Egregious" AND GD = "Poor" THEN 1 END)
+            +COUNT(CASE WHEN Rating = "Okay" AND GD = "Poor" THEN 1 END)
+            +COUNT(CASE WHEN Rating = "Poor" AND GD = "Egregious" THEN 1 END)
+            +COUNT(CASE WHEN Rating = "Egregious" AND GD = "Egregious" THEN 1 END)
+            +COUNT(CASE WHEN Rating = "Okay" AND GD = "Egregious" THEN 1 END)
+            +COUNT(CASE WHEN Rating = "Poor" AND GD = "Okay" THEN 1 END)
+            +COUNT(CASE WHEN Rating = "Egregious" AND GD = "Okay" THEN 1 END)
+            +COUNT(CASE WHEN Rating = "Okay" AND GD = "Okay" THEN 1 END)
+
+========================================    LOOKER POOR COUNTS
+
+TP_poor:
+COUNT(CASE WHEN Rating = "Poor" AND GD = "Poor" THEN 1 END) 
+
+FP_poor:
+COUNT(CASE WHEN Rating = "Poor" AND GD = "Egregious" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Poor" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Poor" AND GD = "Okay" THEN 1 END) 
+
+FN_poor:
+COUNT(CASE WHEN Rating = "Egregious" AND GD = "Poor" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Good" AND GD = "Poor" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Poor" THEN 1 END) 
+
+TN_poor:
+COUNT(CASE WHEN Rating = "Egregious" AND GD = "Egregious" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Good" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Okay" THEN 1 END)
++COUNT(CASE WHEN Rating = "Good" AND GD = "Egregious" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Egregious" THEN 1 END)
++COUNT(CASE WHEN Rating = "Egregious" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Egregious" AND GD = "Okay" THEN 1 END)
++COUNT(CASE WHEN Rating = "Good" AND GD = "Okay" THEN 1 END) 
+
+
+========================================    LOOKER EGREGIOUS COUNTS
+
+TP_egregious:
+COUNT(CASE WHEN Rating = "Egregious" AND GD = "Egregious" THEN 1 END)
+
+FP_egregious:
+COUNT(CASE WHEN Rating = "Egregious" AND GD = "Poor" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Egregious" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Egregious" AND GD = "Okay" THEN 1 END)
+
+FN_egregious:
+COUNT(CASE WHEN Rating = "Poor" AND GD = "Egregious" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Good" AND GD = "Egregious" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Egregious" THEN 1 END)
+
+TN_egregious:        
+COUNT(CASE WHEN Rating = "Poor" AND GD = "Poor" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Good" AND GD = "Poor" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Poor" THEN 1 END)
++COUNT(CASE WHEN Rating = "Poor" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Good" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Poor" AND GD = "Okay" THEN 1 END)
++COUNT(CASE WHEN Rating = "Good" AND GD = "Okay" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Okay" THEN 1 END) 
+
+
+========================================    LOOKER NON-EGREGIOUS COUNTS
+
+TN_non_egregious:
+COUNT(CASE WHEN Rating = "Egregious" AND GD = "Egregious" THEN 1 END)
+
+FN_non_egregious:
+COUNT(CASE WHEN Rating = "Egregious" AND GD = "Poor" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Egregious" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Egregious" AND GD = "Okay" THEN 1 END)
+
+FP_non_egregious:
+COUNT(CASE WHEN Rating = "Poor" AND GD = "Egregious" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Good" AND GD = "Egregious" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Egregious" THEN 1 END)
+
+TP_non_egregious:
+COUNT(CASE WHEN Rating = "Poor" AND GD = "Poor" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Good" AND GD = "Poor" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Poor" THEN 1 END)
++COUNT(CASE WHEN Rating = "Poor" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Good" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Poor" AND GD = "Okay" THEN 1 END)
++COUNT(CASE WHEN Rating = "Good" AND GD = "Okay" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Okay" THEN 1 END)
+
+
+========================================    LOOKER OKAY COUNTS
+
+
+TP_okay:
+COUNT(CASE WHEN Rating = "Okay" AND GD = "Okay" THEN 1 END) 
+
+FP_okay:
+COUNT(CASE WHEN Rating = "Okay" AND GD = "Poor" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Egregious" THEN 1 END)
++COUNT(CASE WHEN Rating = "Okay" AND GD = "Good" THEN 1 END) 
+
+FN_okay:
+COUNT(CASE WHEN Rating = "Poor" AND GD = "Okay" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Egregious" AND GD = "Okay" THEN 1 END)
++COUNT(CASE WHEN Rating = "Good" AND GD = "Okay" THEN 1 END) 
+
+TN_okay:
+COUNT(CASE WHEN Rating = "Poor" AND GD = "Poor" THEN 1 END) 
++COUNT(CASE WHEN Rating = "Egregious" AND GD = "Poor" THEN 1 END)
++COUNT(CASE WHEN Rating = "Good" AND GD = "Poor" THEN 1 END)
++COUNT(CASE WHEN Rating = "Poor" AND GD = "Egregious" THEN 1 END)
++COUNT(CASE WHEN Rating = "Egregious" AND GD = "Egregious" THEN 1 END)
++COUNT(CASE WHEN Rating = "Good" AND GD = "Egregious" THEN 1 END)
++COUNT(CASE WHEN Rating = "Poor" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Egregious" AND GD = "Good" THEN 1 END)
++COUNT(CASE WHEN Rating = "Good" AND GD = "Good" THEN 1 END) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

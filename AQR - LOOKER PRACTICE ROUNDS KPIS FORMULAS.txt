@@ -1,0 +1,259 @@
+=========================================== POOR METRICS
+
+poor_Accuracy:
+  CASE
+      WHEN (COALESCE(TP_poor, SUM(0)) + COALESCE(FN_poor, SUM(0)) + COALESCE(FP_poor, SUM(0)) + COALESCE(TN_poor, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE ((COALESCE(TP_poor, SUM(0)) + COALESCE(TN_poor, SUM(0))) / 
+            (COALESCE(TP_poor, SUM(0)) + COALESCE(FN_poor, SUM(0)) + COALESCE(FP_poor, SUM(0)) + COALESCE(TN_poor, SUM(0))))
+    END 
+
+poor_Specificity:
+  CASE
+      WHEN (COALESCE(TN_poor, SUM(0)) + COALESCE(FP_poor, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TN_poor, SUM(0)) / (COALESCE(TN_poor, SUM(0)) + COALESCE(FP_poor, SUM(0))))
+    END 
+
+poor_Precision:
+  CASE
+      WHEN (COALESCE(TP_poor, SUM(0)) + COALESCE(FP_poor, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TP_poor, SUM(0)) / (COALESCE(TP_poor, SUM(0)) + COALESCE(FP_poor, SUM(0))))
+    END 
+
+poor_Recall_Sensitivity:
+  CASE
+      WHEN (COALESCE(TP_poor, SUM(0)) + COALESCE(FN_poor, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TP_poor, SUM(0)) / (COALESCE(TP_poor, SUM(0)) + COALESCE(FN_poor, SUM(0))))
+    END 
+
+poor_F1_Score:
+  CASE
+      WHEN (COALESCE(TP_poor, SUM(0)) + COALESCE(FP_poor, SUM(0))) = SUM(0) 
+          OR (COALESCE(TP_poor, SUM(0)) + COALESCE(FN_poor, SUM(0))) = SUM(0) 
+          OR ((COALESCE(TP_poor, SUM(0)) / (COALESCE(TP_poor, SUM(0)) + COALESCE(FP_poor, SUM(0)))) + 
+              (COALESCE(TP_poor, SUM(0)) / (COALESCE(TP_poor, SUM(0)) + COALESCE(FN_poor, SUM(0))))) = SUM(0) 
+      THEN SUM(0)
+      ELSE 
+      (2 *  (COALESCE(TP_poor, SUM(0)) / (COALESCE(TP_poor, SUM(0)) + COALESCE(FP_poor, SUM(0)))) *  
+            (COALESCE(TP_poor, SUM(0)) / (COALESCE(TP_poor, SUM(0)) + COALESCE(FN_poor, SUM(0))))) / 
+      ((COALESCE(TP_poor, SUM(0)) / (COALESCE(TP_poor, SUM(0)) + COALESCE(FP_poor, SUM(0)))) +  
+      (COALESCE(TP_poor, SUM(0)) / (COALESCE(TP_poor, SUM(0)) + COALESCE(FN_poor, SUM(0)))))
+    END 
+
+
+=========================================== EGREGIOUS METRICS
+
+egregious_Accuracy:
+  CASE
+      WHEN (COALESCE(TP_egregious, SUM(0)) + COALESCE(FN_egregious, SUM(0)) + COALESCE(FP_egregious, SUM(0)) + COALESCE(TN_egregious, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE ((COALESCE(TP_egregious, SUM(0)) + COALESCE(TN_egregious, SUM(0))) / 
+            (COALESCE(TP_egregious, SUM(0)) + COALESCE(FN_egregious, SUM(0)) + COALESCE(FP_egregious, SUM(0)) + COALESCE(TN_egregious, SUM(0))))
+    END 
+
+
+egregious_Specificity:
+  CASE
+      WHEN (COALESCE(TN_egregious, SUM(0)) + COALESCE(FP_egregious, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TN_egregious, SUM(0)) / (COALESCE(TN_egregious, SUM(0)) + COALESCE(FP_egregious, SUM(0))))
+    END 
+
+
+egregious_Precision:
+  CASE
+      WHEN (COALESCE(TP_egregious, SUM(0)) + COALESCE(FP_egregious, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TP_egregious, SUM(0)) / (COALESCE(TP_egregious, SUM(0)) + COALESCE(FP_egregious, SUM(0))))
+    END 
+
+egregious_Recall_Sensitivity:
+  CASE
+      WHEN (COALESCE(TP_egregious, SUM(0)) + COALESCE(FN_egregious, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TP_egregious, SUM(0)) / (COALESCE(TP_egregious, SUM(0)) + COALESCE(FN_egregious, SUM(0))))
+    END 
+
+egregious_F1_Score:
+  CASE
+      WHEN (COALESCE(TP_egregious, SUM(0)) + COALESCE(FP_egregious, SUM(0))) = SUM(0) 
+          OR (COALESCE(TP_egregious, SUM(0)) + COALESCE(FN_egregious, SUM(0))) = SUM(0) 
+          OR ((COALESCE(TP_egregious, SUM(0)) / (COALESCE(TP_egregious, SUM(0)) + COALESCE(FP_egregious, SUM(0)))) + 
+              (COALESCE(TP_egregious, SUM(0)) / (COALESCE(TP_egregious, SUM(0)) + COALESCE(FN_egregious, SUM(0))))) = SUM(0) 
+      THEN SUM(0)
+      ELSE 
+      (2 *  (COALESCE(TP_egregious, SUM(0)) / (COALESCE(TP_egregious, SUM(0)) + COALESCE(FP_egregious, SUM(0)))) *  
+            (COALESCE(TP_egregious, SUM(0)) / (COALESCE(TP_egregious, SUM(0)) + COALESCE(FN_egregious, SUM(0))))) / 
+      ((COALESCE(TP_egregious, SUM(0)) / (COALESCE(TP_egregious, SUM(0)) + COALESCE(FP_egregious, SUM(0)))) +  
+      (COALESCE(TP_egregious, SUM(0)) / (COALESCE(TP_egregious, SUM(0)) + COALESCE(FN_egregious, SUM(0)))))
+    END 
+
+
+
+=========================================== NON - EGREGIOUS METRICS
+
+
+non_egregious_Accuracy:
+  CASE
+      WHEN (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FN_non_egregious, SUM(0)) + COALESCE(FP_non_egregious, SUM(0)) + COALESCE(TN_non_egregious, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE ((COALESCE(TP_non_egregious, SUM(0)) + COALESCE(TN_non_egregious, SUM(0))) / 
+            (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FN_non_egregious, SUM(0)) + COALESCE(FP_non_egregious, SUM(0)) + COALESCE(TN_non_egregious, SUM(0))))
+    END 
+
+
+non_egregious_Specificity:
+  CASE
+      WHEN (COALESCE(TN_non_egregious, SUM(0)) + COALESCE(FP_non_egregious, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TN_non_egregious, SUM(0)) / (COALESCE(TN_non_egregious, SUM(0)) + COALESCE(FP_non_egregious, SUM(0))))
+    END 
+
+
+non_egregious_Precision:
+  CASE
+      WHEN (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FP_non_egregious, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TP_non_egregious, SUM(0)) / (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FP_non_egregious, SUM(0))))
+    END
+
+
+non_egregious_Recall_Sensitivity:
+  CASE
+      WHEN (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FN_non_egregious, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TP_non_egregious, SUM(0)) / (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FN_non_egregious, SUM(0))))
+    END 
+
+
+non_egregious_F1_Score:
+  CASE
+      WHEN (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FP_non_egregious, SUM(0))) = SUM(0) 
+          OR (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FN_non_egregious, SUM(0))) = SUM(0) 
+          OR ((COALESCE(TP_non_egregious, SUM(0)) / (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FP_non_egregious, SUM(0)))) + 
+              (COALESCE(TP_non_egregious, SUM(0)) / (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FN_non_egregious, SUM(0))))) = SUM(0) 
+      THEN SUM(0)
+      ELSE 
+      (2 *  (COALESCE(TP_non_egregious, SUM(0)) / (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FP_non_egregious, SUM(0)))) *  
+            (COALESCE(TP_non_egregious, SUM(0)) / (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FN_non_egregious, SUM(0))))) / 
+      ((COALESCE(TP_non_egregious, SUM(0)) / (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FP_non_egregious, SUM(0)))) +  
+      (COALESCE(TP_non_egregious, SUM(0)) / (COALESCE(TP_non_egregious, SUM(0)) + COALESCE(FN_non_egregious, SUM(0)))))
+    END 
+
+
+=========================================== GOOD METRICS
+
+
+good_Accuracy
+ CASE
+      WHEN (COALESCE(TP_good, SUM(0)) + COALESCE(FN_good, SUM(0)) + COALESCE(FP_good, SUM(0)) + COALESCE(TN_good, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE ((COALESCE(TP_good, SUM(0)) + COALESCE(TN_good, SUM(0))) / 
+            (COALESCE(TP_good, SUM(0)) + COALESCE(FN_good, SUM(0)) + COALESCE(FP_good, SUM(0)) + COALESCE(TN_good, SUM(0))))
+    END 
+
+good_Specificity
+  CASE
+      WHEN (COALESCE(TN_good, SUM(0)) + COALESCE(FP_good, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TN_good, SUM(0)) / (COALESCE(TN_good, SUM(0)) + COALESCE(FP_good, SUM(0))))
+    END 
+
+good_Precision
+  CASE
+      WHEN (COALESCE(TP_good, SUM(0)) + COALESCE(FP_good, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TP_good, SUM(0)) / (COALESCE(TP_good, SUM(0)) + COALESCE(FP_good, SUM(0))))
+    END 
+
+good_Recall_Sensitivity
+  CASE
+      WHEN (COALESCE(TP_good, SUM(0)) + COALESCE(FN_good, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TP_good, SUM(0)) / (COALESCE(TP_good, SUM(0)) + COALESCE(FN_good, SUM(0))))
+    END 
+
+good_F1_Score
+  CASE
+      WHEN (COALESCE(TP_good, SUM(0)) + COALESCE(FP_good, SUM(0))) = SUM(0) 
+          OR (COALESCE(TP_good, SUM(0)) + COALESCE(FN_good, SUM(0))) = SUM(0) 
+          OR ((COALESCE(TP_good, SUM(0)) / (COALESCE(TP_good, SUM(0)) + COALESCE(FP_good, SUM(0)))) + 
+              (COALESCE(TP_good, SUM(0)) / (COALESCE(TP_good, SUM(0)) + COALESCE(FN_good, SUM(0))))) = SUM(0) 
+      THEN SUM(0)
+      ELSE 
+      (2 *  (COALESCE(TP_good, SUM(0)) / (COALESCE(TP_good, SUM(0)) + COALESCE(FP_good, SUM(0)))) *  
+            (COALESCE(TP_good, SUM(0)) / (COALESCE(TP_good, SUM(0)) + COALESCE(FN_good, SUM(0))))) / 
+      ((COALESCE(TP_good, SUM(0)) / (COALESCE(TP_good, SUM(0)) + COALESCE(FP_good, SUM(0)))) +  
+      (COALESCE(TP_good, SUM(0)) / (COALESCE(TP_good, SUM(0)) + COALESCE(FN_good, SUM(0)))))
+    END 
+
+
+=========================================== OKAY METRICS
+
+
+okay_Accuracy:
+  CASE
+      WHEN (COALESCE(TP_okay, SUM(0)) + COALESCE(FN_okay, SUM(0)) + COALESCE(FP_okay, SUM(0)) + COALESCE(TN_okay, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE ((COALESCE(TP_okay, SUM(0)) + COALESCE(TN_okay, SUM(0))) / 
+            (COALESCE(TP_okay, SUM(0)) + COALESCE(FN_okay, SUM(0)) + COALESCE(FP_okay, SUM(0)) + COALESCE(TN_okay, SUM(0))))
+    END 
+
+
+okay_Specificity:
+  CASE
+      WHEN (COALESCE(TN_okay, SUM(0)) + COALESCE(FP_okay, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TN_okay, SUM(0)) / (COALESCE(TN_okay, SUM(0)) + COALESCE(FP_okay, SUM(0))))
+    END 
+
+
+okay_Precision:
+  CASE
+      WHEN (COALESCE(TP_okay, SUM(0)) + COALESCE(FP_okay, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TP_okay, SUM(0)) / (COALESCE(TP_okay, SUM(0)) + COALESCE(FP_okay, SUM(0))))
+    END 
+
+
+okay_Recall_Sensitivity:
+  CASE
+      WHEN (COALESCE(TP_okay, SUM(0)) + COALESCE(FN_okay, SUM(0))) = SUM(0) THEN SUM(0)
+      ELSE (COALESCE(TP_okay, SUM(0)) / (COALESCE(TP_okay, SUM(0)) + COALESCE(FN_okay, SUM(0))))
+    END 
+
+
+okay_F1_Score:
+  CASE
+      WHEN (COALESCE(TP_okay, SUM(0)) + COALESCE(FP_okay, SUM(0))) = SUM(0) 
+          OR (COALESCE(TP_okay, SUM(0)) + COALESCE(FN_okay, SUM(0))) = SUM(0) 
+          OR ((COALESCE(TP_okay, SUM(0)) / (COALESCE(TP_okay, SUM(0)) + COALESCE(FP_okay, SUM(0)))) + 
+              (COALESCE(TP_okay, SUM(0)) / (COALESCE(TP_okay, SUM(0)) + COALESCE(FN_okay, SUM(0))))) = SUM(0) 
+      THEN SUM(0)
+      ELSE 
+      (2 *  (COALESCE(TP_okay, SUM(0)) / (COALESCE(TP_okay, SUM(0)) + COALESCE(FP_okay, SUM(0)))) *  
+            (COALESCE(TP_okay, SUM(0)) / (COALESCE(TP_okay, SUM(0)) + COALESCE(FN_okay, SUM(0))))) / 
+      ((COALESCE(TP_okay, SUM(0)) / (COALESCE(TP_okay, SUM(0)) + COALESCE(FP_okay, SUM(0)))) +  
+      (COALESCE(TP_okay, SUM(0)) / (COALESCE(TP_okay, SUM(0)) + COALESCE(FN_okay, SUM(0)))))
+    END 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
