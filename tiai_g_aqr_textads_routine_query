@@ -1,0 +1,11 @@
+-- BEGIN
+-- FIRST STEP #1:
+CREATE OR REPLACE TABLE `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_textads_old_g_sheet_connected_BQ_table` AS
+SELECT * FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_text_ads_res_old_g_sheet_connected` ;
+
+-- SECOND STEP #2:
+INSERT INTO `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_text_ads_old`
+SELECT * FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_textads_old_g_sheet_connected_BQ_table` ;
+-- END
+
+
