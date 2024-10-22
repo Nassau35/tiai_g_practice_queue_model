@@ -1,0 +1,107 @@
+WITH t AS (
+  SELECT * 
+  FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_text_ads_res_g_sheet_connected` AS live
+  UNION ALL
+  SELECT * 
+  FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_text_ads_old` AS old 
+),
+
+shopi AS (
+  SELECT 
+    SPLIT(shop.PROJECT, "_")[SAFE_OFFSET(0)] AS QUEUE,
+    shop.Correlative,
+    shop.date,
+    shop.TimeStamp_updated,
+    shop.User_upload_querys,
+    shop.Source,
+    shop.identifier,
+    shop.Guideline_Official,
+    shop.Client,
+    shop.Project,
+    shop.Unique_ID,
+    shop.is_this_query_active_,
+    shop.is_this_query_for_productivity_,
+    shop.is_this_query_for_performance_,
+    shop.query,
+    shop.eta_description,
+    shop.landing_page,
+    shop.eta_visurl,
+    shop.eta_headline,
+    shop.SERP_LINK_QUERY,
+    shop.SERP_LINK_KEYWORD,
+    shop.Date_GD___Last_Update,
+    shop.Updated_by___SER_1,
+    shop.Keyword,
+    shop.url_form,
+    t.Timestamp,
+    t.Email_Address,
+    t.Correlative AS correlative_res,
+    t.Rating,
+    t.Certainty,
+    t.From___1___10_how_difficult_was_this_query,
+    t.How_would_you_classify_this_task,
+    t.Date AS date_res,
+    t.Month AS month_res,
+    t.Hour AS hour_res,
+    t.flow AS Flow,
+    t.GD AS GD,
+    t.Accuracy AS Accuracy,
+    ROW_NUMBER() OVER (PARTITION BY Concat(shop.Correlative,t.Email_Address) ORDER BY t.Accuracy DESC) AS rn,
+    COUNT(*) OVER (PARTITION BY Concat(shop.Correlative,t.Email_Address)) AS duplicate_count,
+    LAG(t.rating) OVER (PARTITION BY Concat(shop.Correlative,t.Email_Address) ORDER BY t.Timestamp) AS previous_query
+  FROM `ti-lbai-sandbox.tiai_g_ads_practice_queue.merge_queues_BQ_Table` AS shop
+  LEFT JOIN t
+    ON CAST(shop.Correlative AS INT64) = CAST(t.Correlative AS INT64)
+    AND SPLIT(shop.PROJECT, "_")[SAFE_OFFSET(0)] = t.Flow
+  WHERE SPLIT(shop.PROJECT, "_")[SAFE_OFFSET(0)] = "TextAds"
+  --ORDER BY shop.Correlative
+)
+
+SELECT 
+  QUEUE,
+  Correlative,
+  date,
+  TimeStamp_updated,
+  User_upload_querys,
+  Source,
+  identifier,
+  Guideline_Official,
+  Client,
+  Project,
+  Unique_ID,
+  is_this_query_active_,
+  is_this_query_for_productivity_,
+  is_this_query_for_performance_,
+  query,
+  eta_description,
+  landing_page,
+  eta_visurl,
+  eta_headline,
+  SERP_LINK_QUERY,
+  SERP_LINK_KEYWORD,
+  Date_GD___Last_Update,
+  Updated_by___SER_1,
+  Keyword,
+  url_form,
+  Timestamp,
+  Email_Address,
+  correlative_res,
+  Rating,
+  Certainty,
+  From___1___10_how_difficult_was_this_query,
+  How_would_you_classify_this_task,
+  date_res,
+  month_res,
+  hour_res,
+  Flow,
+  GD,
+  Accuracy,
+  duplicate_count,
+  CASE 
+    WHEN rating != previous_query THEN 'Changed'
+    ELSE 'Unchanged'
+  END AS query_status
+FROM shopi
+WHERE rn = 1 -- Take only the best Accuracy per Correlative
+and Email_Address is not null
+ORDER BY Correlative;
