@@ -1,0 +1,12 @@
+FINAL QUERIES AND TABLES FOR PRACTICE QUEUE GOOGLE ADS:
+EM: 
+Query: em_phrasematch_bq_FINAL_QUEUE⚡
+TABLE: ti-lbai-sandbox.tiai_g_ads_practice_queue.em_phrasematch_bq_FINAL
+
+Shopping: 
+QUEERY: aqr_shopping_bq_FINAL_⚡
+TABLE: ti-lbai-sandbox.tiai_g_ads_practice_queue.em_phrasematch_bq_FINAL
+
+TextAds:
+Query: aqr_textads_bq_FINAL_⚡
+TABLE: ti-lbai-sandbox.tiai_g_ads_practice_queue.aqr_textads_bq_FINAL
